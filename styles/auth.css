@@ -1,0 +1,72 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+.title-auth {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 40px;
+  color: #ffffff;
+}
+.desc-auth {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 16px;
+}
+.title-auth-right {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 33px;
+
+  color: #3a3d42;
+}
+input {
+  padding: 5px;
+  margin-bottom: 30px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid grey;
+  width: 100%;
+}
+input::placeholder {
+  color: grey;
+}
+.bi {
+  position: absolute;
+}
+.btn-auth {
+  background: #dadada;
+  box-shadow: 0px 6px 75px rgba(100, 87, 87, 0.05);
+  border-radius: 12px;
+}
+.footer-auth {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 23px;
+  /* or 144% */
+
+  text-align: center;
+
+  color: rgba(58, 61, 66, 0.8);
+}
+.footer-auth a {
+  color: #6379f4;
+}
+.container-otp {
+  padding: 16px;
+}
+
+.otp {
+  width: 50px;
+  height: 50px;
+  padding: 8px;
+  border-radius: 8px;
+  font-size: 40px;
+  text-align: center;
+  margin-right: 12px;
+  border: 1px solid grey;
+  text-transform: uppercase;
+}
