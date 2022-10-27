@@ -2,6 +2,11 @@
   margin: 0;
   padding: 0;
 }
+.section--img__left {
+  background-image: url("../public/cover-auth.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 .title-auth {
   font-family: "Nunito Sans";
   font-style: normal;

@@ -1,19 +1,43 @@
 import React, { useState } from "react";
-
+// import { useRouter } from "next/router";
+// import axiosClient from "utils/axios";
+// import Cookies from "js-cookie";
 import Image from "next/image";
-import AuthCode from "react-auth-code-input";
 
 export default function Regiter() {
-  const [result, setResult] = useState("");
+  // const router = useRouter();
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+  // const [result, setResult] = useState("");
 
-  const handleOnChange = () => {
-    setResult();
+  const handleOnChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
-  console.log(result);
+  const handleSignup = async () => {
+    try {
+      console.log(form);
+      // const result = await axiosClient.post("/auth/login", form);
+      // Cookies.set("token", result.data.data.token);
+      // Cookies.set("userId", result.data.data.id);
+      // //   proses kondisi pengecekan pin jika ada akan diarahkan ke home jika tidak ada akan diarahkan ke create pin
+      // router.push("/home");
+      // console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="container-fluid ">
       <div className="row">
-        <div className="col-7 " style={{ background: "#6379F4" }}>
+        <div
+          className="col-7 section--img__left"
+          // style={{ background: "#6379F4" }}
+        >
           <div className=" m-auto" style={{ width: "500px" }}>
             <p className="title-auth " style={{ marginBottom: "-40px" }}>
               FazzPay{" "}
@@ -50,38 +74,40 @@ export default function Regiter() {
               className="input-field text-secondary"
               type="text"
               placeholder="Enter Your First Name"
+              name="firstName"
+              onChange={handleOnChange}
             />
             <input
+              name="lastName"
+              onChange={handleOnChange}
               className="input-field"
               type="text"
               placeholder="Enter Your Last Name"
             />
             <input
+              onChange={handleOnChange}
               className="input-field"
               type="text"
               placeholder="Enter Your Email"
+              name="email"
             />
             <input
+              onChange={handleOnChange}
               className="input-field"
               type="password"
+              name="password"
               placeholder="Create Password"
             />
-            <button type="button" className="btn w-100 btn-auth mt-4 mb-4">
+            <button
+              type="button"
+              className="btn w-100 btn-auth mt-4 mb-4"
+              onClick={handleSignup}
+            >
               Sign in
             </button>
             <p className="footer-auth">
               Already have an account? Let’s <a href="#">Login</a>{" "}
             </p>
-
-            <div className="bg-primary text-center">
-              <AuthCode
-                length={6}
-                containerClassName="container-otp"
-                inputClassName="otp"
-                onChange={handleOnChange}
-                allowedCharacters="numeric"
-              />
-            </div>
           </div>
         </div>
       </div>

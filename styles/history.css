@@ -1,0 +1,36 @@
+.main-container {
+  border-radius: 20px;
+  box-shadow: 5px 5px 10px #ededed, -5px -5px 10px #ededed;
+}
+.history-transfer {
+  justify-content: space-between;
+  height: 60px;
+}
+.header-history {
+  justify-content: space-between;
+}
+.header-history p {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 25px;
+  /* identical to box height */
+
+  /* Zwallet/Dark */
+
+  color: #3a3d42;
+}
+.form-select {
+  background: rgba(58, 61, 66, 0.1);
+  border-radius: 12px;
+  width: 100px;
+}
+.form-select option {
+  text-align: center;
+}
+.username-history,
+.activity-history {
+  margin: 5px 0;
+  /* margin-bottom: 5px; */
+}

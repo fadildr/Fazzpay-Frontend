@@ -1,0 +1,39 @@
+.header-home {
+  justify-content: space-between;
+  background: #6379f4;
+  border-radius: 20px;
+  box-shadow: 5px 5px 10px #ededed, -5px -5px 10px #ededed;
+}
+.activity ul li {
+  list-style: none;
+}
+.btn-activity {
+  background: rgba(255, 255, 255, 0.2);
+  /* White */
+  color: white;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  width: 162px;
+  height: 57px;
+  margin-right: 10px;
+}
+.balance {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 31px;
+  /* identical to box height, or 172% */
+
+  color: #e0e0e0;
+}
+.jumlah {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 55px;
+  /* identical to box height */
+
+  color: #ffffff;
+}

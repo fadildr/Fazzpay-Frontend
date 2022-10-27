@@ -1,43 +1,64 @@
 import React from "react";
+import Image from "next/image";
+import axios from "utils/axios";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
 // import Link from "next/link";
 export default function Header() {
+  const [data, setData] = useState();
+  useEffect(() => {
+    getDataUser();
+  }, []);
+  const id = Cookies.get("userId");
+  console.log(id);
+  const getDataUser = async () => {
+    try {
+      const result = await axios.get(`/user/profile/${id}`);
+      setData(result.data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  console.log(data);
   // const isLogin = true;
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar mb-4">
       <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-          Fazzpay
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarText"
-          aria-controls="navbarText"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarText">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
-                Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Features
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Pricing
-              </a>
-            </li>
-          </ul>
-          <span class="navbar-text">Navbar text with an inline element</span>
+        <div className="container d-flex">
+          <a className="navbar-brand" href="/home">
+            Fazzpay
+          </a>
+          <div
+            className="header-right d-flex align-item-center "
+            // style={{ marginLeft: "800px" }}
+          >
+            {/* (data.image) */}
+            <Image
+              src={
+                data.image
+                  ? `https://res.cloudinary.com/dxbhfz3jn/image/upload/v1663760408/${data.image}`
+                  : "/user-img.png"
+              }
+              className="avatar"
+              alt="avatar"
+              // "/user-img.png"
+              width={50}
+              height={50}
+              // layout="responsive"
+              alt="background"
+              // className="me-auto"
+            />
+            <div
+              className="header-name mx-3"
+              // style={{ marginRight: "10px", marginLeft: "10px" }}
+            >
+              <p className="username-header">
+                {data.firstName} {data.lastName}
+              </p>
+              <p className="telp-header">{data.noTelp}</p>
+            </div>
+            <i className="bi-bell mt-2"></i>
+          </div>
         </div>
       </div>
     </nav>
