@@ -1,0 +1,10 @@
+.input-group-search {
+  background: rgba(58, 61, 66, 0.1);
+  border-radius: 12px;
+  /* border: solid none solid solid; */
+}
+.input-group-text-search {
+  background: rgba(58, 61, 66, 0.1);
+  border-radius: 12px 0 0 12px;
+  /* border: solid none 1px red; */
+}

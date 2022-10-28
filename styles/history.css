@@ -4,7 +4,9 @@
 }
 .history-transfer {
   justify-content: space-between;
-  height: 60px;
+  height: 50px;
+  /* box-shadow: 0 0 10px 0 #ededed, 0 0 5px 0 #ededed; */
+  border-radius: 20px;
 }
 .header-history {
   justify-content: space-between;
@@ -31,6 +33,6 @@
 }
 .username-history,
 .activity-history {
-  margin: 5px 0;
+  margin: 0;
   /* margin-bottom: 5px; */
 }

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-// import { useRouter } from "next/router";
-// import axiosClient from "utils/axios";
+import { useRouter } from "next/router";
+import axiosClient from "utils/axios";
 // import Cookies from "js-cookie";
 import Image from "next/image";
 
 export default function Regiter() {
-  // const router = useRouter();
+  const router = useRouter();
   const [form, setForm] = useState({
     firstName: "",
     lastName: "",
@@ -20,12 +20,11 @@ export default function Regiter() {
   const handleSignup = async () => {
     try {
       console.log(form);
-      // const result = await axiosClient.post("/auth/login", form);
-      // Cookies.set("token", result.data.data.token);
-      // Cookies.set("userId", result.data.data.id);
-      // //   proses kondisi pengecekan pin jika ada akan diarahkan ke home jika tidak ada akan diarahkan ke create pin
-      // router.push("/home");
-      // console.log(result);
+      const result = await axiosClient.post("/auth/register", form);
+      alert(result.data.msg);
+
+      router.push("/login");
+      console.log(result);
     } catch (error) {
       console.log(error);
     }

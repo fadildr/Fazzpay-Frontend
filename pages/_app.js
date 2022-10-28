@@ -3,12 +3,13 @@ import "../styles/auth.css";
 import "../styles/components.css";
 import "../styles/home.css";
 import "../styles/history.css";
+import "../styles/transfer.css";
 import { Provider } from "react-redux";
 import stores from "stores";
-const { store, persistor } = stores;
 import { PersistGate } from "redux-persist/integration/react";
 
 function MyApp({ Component, pageProps }) {
+  const { store, persistor } = stores;
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>

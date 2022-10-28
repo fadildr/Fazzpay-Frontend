@@ -3,9 +3,11 @@ import { useRouter } from "next/router";
 import axios from "utils/axios";
 import Cookies from "js-cookie";
 import Image from "next/image";
-
+import { useDispatch } from "react-redux";
+import { getDataUserById } from "stores/action/user";
 export default function Login() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [form, setForm] = useState({
     email: "",
     password: "",
@@ -22,6 +24,8 @@ export default function Login() {
       const result = await axios.post("/auth/login", form);
       Cookies.set("token", result.data.data.token);
       Cookies.set("userId", result.data.data.id);
+
+      await dispatch(getDataUserById(result.data.data.id));
       //   proses kondisi pengecekan pin jika ada akan diarahkan ke home jika tidak ada akan diarahkan ke create pin
       router.push("/home");
       console.log(result);
