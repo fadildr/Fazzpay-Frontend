@@ -8,3 +8,24 @@
   border-radius: 12px 0 0 12px;
   /* border: solid none 1px red; */
 }
+.input--transfer__desc {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 28px;
+  /* color: red; */
+  color: #7a7886;
+}
+.transfer-balance {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+  /* identical to box height */
+
+  /* Zwallet/Dark */
+
+  color: #3a3d42;
+}

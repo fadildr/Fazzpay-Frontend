@@ -1,15 +1,56 @@
 import React, { useState } from "react";
-
+import Cookies from "js-cookie";
 import Image from "next/image";
-import AuthCode from "react-auth-code-input";
-
+import axios from "utils/axios";
+// import AuthCode from "react-auth-code-input";
+import { useRouter } from "next/router";
 export default function Login() {
-  const [result, setResult] = useState("");
-
-  const handleOnChange = () => {
-    setResult();
+  const [pin, setPin] = useState({
+    pin1: "",
+    pin2: "",
+    pin3: "",
+    pin4: "",
+    pin5: "",
+    pin6: "",
+  });
+  const router = useRouter();
+  const handleChange = (e) => {
+    setPin({ ...pin, [e.target.id]: e.target.value });
   };
-  console.log(result);
+
+  const inputFocus = (e) => {
+    if (e.key === "Delete" || e.key === "Backspace") {
+      const next = e.target.tabIndex - 2;
+      if (next > -1) {
+        e.target.form.elements[next].focus();
+      }
+    } else {
+      const next = e.target.tabIndex;
+      if (next < 6) {
+        e.target.form.elements[next].focus();
+      }
+    }
+  };
+  const id = Cookies.get("userId");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    let allPin = "";
+    for (const item in pin) {
+      allPin += pin[item];
+    }
+    const newPin = {
+      pin: allPin,
+    };
+
+    try {
+      const result = await axios.patch(`/user/pin/${id}`, newPin);
+
+      alert(result.data.msg);
+      router.push("/login");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="container-fluid ">
       <div className="row">
@@ -47,18 +88,31 @@ export default function Login() {
               FazzPay account password and the PIN.
             </p>
 
-            <div className=" text-center">
-              <AuthCode
-                length={6}
-                containerClassName="container-otp"
-                inputClassName="otp"
-                onChange={handleOnChange}
-                allowedCharacters="numeric"
-              />
-            </div>
-            <button type="button" className="btn w-100 btn-auth mt-4 mb-4">
-              Confirm
-            </button>
+            <form onSubmit={handleSubmit}>
+              <div className="d-flex gap-2 justify-content-center">
+                {[1, 2, 3, 4, 5, 6].map((item) => (
+                  <div key={item}>
+                    <input
+                      type="text"
+                      maxLength="1"
+                      autoComplete="off"
+                      className="form-control text-center"
+                      style={{ width: "40px" }}
+                      tabIndex={item}
+                      id={`pin${item}`}
+                      value={pin[`pin${item}`]}
+                      onChange={handleChange}
+                      onKeyUp={inputFocus}
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="d-grid my-4">
+                <button type="submit" className="btn btn-primary">
+                  Submit
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>

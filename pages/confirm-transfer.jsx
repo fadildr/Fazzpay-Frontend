@@ -47,31 +47,7 @@ export default function Transfer() {
                 </div>
               </div>
             </div>
-            <p className="input--transfer__desc mt-4">
-              Type the amount you want to transfer and then <br /> press
-              continue to the next steps.
-            </p>
-            <div className="text-center">
-              <input
-                type="number"
-                className="text-center w-50 mb-5"
-                min="0.01"
-                step="0.01"
-                max="2500"
-                // value="00.00"
-                style={{
-                  height: "100px",
-                  fontSize: "40px",
-                  color: " #6379F4;",
-                }}
-              />
-              <p className="transfer-balance mb-5 mt-3">Rp120.000 Available</p>
-              <input
-                type="text"
-                placeholder="For buying some socks "
-                className="w-50 mb-5"
-              />
-            </div>
+
             <button
               type="button"
               className="btn btn-primary "

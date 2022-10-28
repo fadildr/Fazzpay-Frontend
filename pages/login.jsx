@@ -24,10 +24,15 @@ export default function Login() {
       const result = await axios.post("/auth/login", form);
       Cookies.set("token", result.data.data.token);
       Cookies.set("userId", result.data.data.id);
-
-      await dispatch(getDataUserById(result.data.data.id));
-      //   proses kondisi pengecekan pin jika ada akan diarahkan ke home jika tidak ada akan diarahkan ke create pin
-      router.push("/home");
+      if (!result.data.data.pin) {
+        alert("You don't have a pin, please add a pin");
+        router.push("/create-pin");
+      } else {
+        await dispatch(getDataUserById(result.data.data.id));
+        alert(result.data.msg);
+        //   proses kondisi pengecekan pin jika ada akan diarahkan ke home jika tidak ada akan diarahkan ke create pin
+        router.push("/home");
+      }
       console.log(result);
     } catch (error) {
       console.log(error);

@@ -42,30 +42,36 @@ export default function History() {
                 <option value="2">MONTH</option>
                 <option value="3">YEAR</option>
               </select>
-            </div>
-            {data.map((item) => (
-              <div className="history-transfer d-flex mb-2" key={item}>
-                <div className="left--section__history d-flex   gap-3">
-                  <Image
-                    src="/user-img.png"
-                    width={50}
-                    height={50}
-                    layout=""
-                    alt="background"
-                    // className="me-auto"
-                  />
-                  <div className="name-activity">
-                    <p className="username-history">
-                      {item.firstName} {item.lastName}
-                    </p>
-                    <p className="activity-history">{item.type}</p>
+            </div>{" "}
+            {data.length > 0 ? (
+              data.map((item) => (
+                <div className="history-transfer d-flex mb-2" key={item}>
+                  <div className="left--section__history d-flex   gap-3">
+                    <Image
+                      src="/user-img.png"
+                      width={50}
+                      height={50}
+                      layout=""
+                      alt="background"
+                      // className="me-auto"
+                    />
+                    <div className="name-activity">
+                      <p className="username-history">
+                        {item.firstName} {item.lastName}
+                      </p>
+                      <p className="activity-history">{item.type}</p>
+                    </div>
+                  </div>
+                  <div className="nominal my-auto">
+                    <p>Rp. {item.amount}</p>
                   </div>
                 </div>
-                <div className="nominal my-auto">
-                  <p>{item.amount}</p>
-                </div>
-              </div>
-            ))}{" "}
+              ))
+            ) : (
+              <h1 className="text-center">
+                you don't have any history <i class="bi bi-emoji-frown"></i>{" "}
+              </h1>
+            )}
             {/* {data.length >= 0 ? (
               data.map((item) => {
                 <div className="history-transfer d-flex mb-2" key={item}>
