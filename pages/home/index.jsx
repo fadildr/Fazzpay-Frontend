@@ -1,16 +1,18 @@
 import React from "react";
 import Layout from "layout";
-
+import { useSelector } from "react-redux";
 export default function Home() {
+  const user = useSelector((state) => state.user);
+  console.log(user);
   return (
     <Layout title="Home">
       <body>
         <div className="header-home  d-flex px-2">
           <div className="nominal my-auto mt-2" style={{ marginLeft: "10px" }}>
             <p className="balance">Balance</p>
-            <p className="jumlah">Rp. 1200000</p>
+            <p className="jumlah">Rp. {user.data.balance}</p>
             <p className="balance" style={{ fontSize: "16px" }}>
-              0910231
+              {user.data.noTelp}
             </p>
           </div>
           <div className="activity   ">

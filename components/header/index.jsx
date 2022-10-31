@@ -1,8 +1,6 @@
 import React from "react";
 import Image from "next/image";
-// import axios from "utils/axios";
-// import Cookies from "js-cookie";
-// import { useEffect, useState } from "react";
+
 import { useSelector } from "react-redux";
 
 export default function Header() {
@@ -26,7 +24,7 @@ export default function Header() {
             <Image
               src={
                 user.data.image
-                  ? `https://res.cloudinary.com/dxbhfz3jn/image/upload/v1663760408/${user.data.image}`
+                  ? `https://res.cloudinary.com/dd1uwz8eu/image/upload/v1666604839/${user.data.image}`
                   : "/user-img.png"
               }
               className="avatar"

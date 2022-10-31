@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 // import React, { useState } from "react";
 import axios from "utils/axios";
-// import Cookies from "js-cookie";
+import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 export default function Transfer() {
   const router = useRouter();
@@ -14,8 +14,8 @@ export default function Transfer() {
     getDataUser();
   }, []);
 
-  // const id = Cookies.get("userId");
-  // console.log(id);
+  const id = Cookies.get("userId");
+  console.log(id);
   const getDataUser = async () => {
     try {
       const result = await axios.get(
@@ -28,9 +28,9 @@ export default function Transfer() {
   };
   const handleCreateTransfer = (id) => {
     console.log(id);
-    router.push(`/input-transfer/${id}`);
+    router.push(`/transfer/${id}`);
   };
-  console.log(data);
+  // console.log(data);
   return (
     <Layout title="Transfer">
       <div>
@@ -59,11 +59,13 @@ export default function Transfer() {
 
             {data.length > 0 ? (
               data.map((item) => (
-                <div className="history-transfer d-flex mb-2 " key={item}>
-                  <div
-                    className="left--section__history d-flex   gap-3"
-                    onClick={() => handleCreateTransfer(item.id)}
-                  >
+                <div
+                  className="history-transfer d-flex mb-2"
+                  key={item}
+                  onClick={() => handleCreateTransfer(item.id)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="left--section__history d-flex   gap-3 ">
                     <Image
                       src="/user-img.png"
                       width={50}

@@ -29,3 +29,29 @@
 
   color: #3a3d42;
 }
+.confirm-transfer {
+  margin-bottom: 20px;
+  border-radius: 15px;
+  box-shadow: 5px 0 10px #ededed, -5px 0 10px #ededed;
+  padding-left: 10px;
+}
+.title-confirm {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 22px;
+  /* identical to box height */
+
+  color: #7a7886;
+}
+.value-confirm {
+  font-family: "Nunito Sans";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 30px;
+  /* identical to box height */
+
+  color: #514f5b;
+}
