@@ -16,7 +16,7 @@ export default function History() {
   const getDataHistory = async () => {
     try {
       const result = await axios.get(
-        "/transaction/history?page=1&limit=10&filter=WEEK"
+        "/transaction/history?page=1&limit=7&filter=WEEK"
       );
       setData(result.data.data);
     } catch (error) {
@@ -45,15 +45,19 @@ export default function History() {
             </div>{" "}
             {data.length > 0 ? (
               data.map((item) => (
-                <div className="history-transfer d-flex mb-2" key={item}>
+                <div className="history-transfer d-flex mb-4" key={item}>
                   <div className="left--section__history d-flex   gap-3">
                     <Image
-                      src="/user-img.png"
+                      src={
+                        item.image
+                          ? `https://res.cloudinary.com/dd1uwz8eu/image/upload/v1666604839/${item.image}`
+                          : `https://ui-avatars.com/api/?name=${item.firstName}&background=random&size=50`
+                      }
                       width={50}
                       height={50}
                       layout=""
                       alt="background"
-                      // className="me-auto"
+                      className="rounded-circle"
                     />
                     <div className="name-activity">
                       <p className="username-history">

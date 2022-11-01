@@ -46,7 +46,7 @@ export default function Login() {
       const result = await axios.patch(`/user/pin/${id}`, newPin);
 
       alert(result.data.msg);
-      router.push("/login");
+      router.push("/home");
     } catch (error) {
       console.log(error);
     }

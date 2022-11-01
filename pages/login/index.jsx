@@ -22,8 +22,8 @@ export default function Login() {
     try {
       console.log(form);
       const result = await axios.post("/auth/login", form);
-      Cookies.set("token", result.data.data.token);
       Cookies.set("userId", result.data.data.id);
+      Cookies.set("token", result.data.data.token);
       if (!result.data.data.pin) {
         alert("You don't have a pin, please add a pin");
         router.push("/create-pin");

@@ -1,12 +1,27 @@
 import React from "react";
 import Link from "next/link";
 import axios from "utils/axios";
-// import cookies from "next-cookies";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
+import { getDataUserById } from "stores/action/user";
+// import { useRouter } from "react-router";
 export default function Aside() {
+  const router = useRouter();
+  const dispatch = useDispatch();
   const handleLogout = async () => {
     const result = await axios.post("auth/logout");
-    // cookies.clear();
+    Cookies.remove("userId");
+    Cookies.remove("token");
+    localStorage.clear();
     alert(result.data.msg);
+    router.push("/login");
+  };
+  const id = Cookies.get("userId");
+  console.log(id);
+  const handleHome = async () => {
+    await dispatch(getDataUserById(id));
+    router.push("/home");
   };
   return (
     <div>
@@ -15,7 +30,9 @@ export default function Aside() {
           <ul className="list-aside">
             <li>
               <i className="bi-microsoft text-primary"></i>
-              <Link href="/home">dasboard</Link>
+              <Link href="/home" onClick={handleHome}>
+                dashboard
+              </Link>
             </li>
             <li>
               <i className="bi-arrow-up"></i>

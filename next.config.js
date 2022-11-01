@@ -5,7 +5,8 @@ const nextConfig = {
   env: {
     URL_BACKEND: "https://fazzpay-rose.vercel.app",
   },
-  images: { domains: ["res.cloudinary.com"] },
+  images: { domains: ["res.cloudinary.com", "ui-avatars.com"] },
+  // images: { domains:  },
 };
 
 module.exports = nextConfig;

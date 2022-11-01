@@ -4,12 +4,12 @@ import Image from "next/image";
 import axios from "utils/axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { formTransfer } from "stores/action/transfer";
 export default function Transfer() {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(user);
+  // console.log(user);
   const router = useRouter();
   const [form, setForm] = useState({ amount: "", notes: "" });
   const [data, setdata] = useState();
@@ -18,11 +18,10 @@ export default function Transfer() {
   }, []);
   const { id } = router.query;
   console.log(id);
+  // const userId = id;
   const getDataById = async () => {
     try {
-      const userId = id;
-      console.log(userId);
-      const result = await axios.get(`/user/profile/${userId}`);
+      const result = await axios.get(`user/profile/${id}`);
       // console.log(id);
       setdata(result.data.data);
     } catch (error) {
@@ -33,7 +32,7 @@ export default function Transfer() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
   const handleConfirmation = () => {
-    dispatch(formTransfer(form, id));
+    dispatch(formTransfer(form, id, data));
     router.push(
       "/transfer/confirm-transfer"
       //  {
@@ -44,6 +43,7 @@ export default function Transfer() {
       // }
     );
   };
+  console.log(form.amount);
   console.log(data);
   return (
     <Layout title="Input Transfer">
@@ -62,7 +62,11 @@ export default function Transfer() {
             >
               <div className="left--section__history d-flex   gap-3">
                 <Image
-                  src="/user-img.png"
+                  src={
+                    data?.image
+                      ? `https://res.cloudinary.com/dd1uwz8eu/image/upload/v1666604839/${data.image}`
+                      : `https://ui-avatars.com/api/?name=${data?.firstName}&background=random&size=50`
+                  }
                   width={50}
                   height={50}
                   layout=""
@@ -71,9 +75,9 @@ export default function Transfer() {
                 />
                 <div className="name-activity">
                   <p className="username-history">
-                    {data.firstName} {data.lastName}
+                    {data?.firstName} {data?.lastName}
                   </p>
-                  <p className="activity-history">{data.noTelp}</p>
+                  <p className="activity-history">{data?.noTelp}</p>
                 </div>
               </div>
             </div>
@@ -85,9 +89,9 @@ export default function Transfer() {
               <input
                 type="number"
                 className="text-center w-50 mb-5"
-                min="0.01"
-                step="0.01"
-                max="2500"
+                min="1"
+                // step=""
+                max={user.data.balance}
                 name="amount"
                 // value="00.00"
                 onChange={handleChangeForm}
@@ -108,14 +112,26 @@ export default function Transfer() {
                 onChange={handleChangeForm}
               />
             </div>
-            <button
-              type="button"
-              className="btn btn-primary "
-              style={{ float: "right" }}
-              onClick={handleConfirmation}
-            >
-              Continue
-            </button>
+            {form.amount > user.data.balance ? (
+              <button
+                type="button"
+                className="btn btn-primary "
+                style={{ float: "right", cursor: "notAllowed " }}
+                // onClick={handleConfirmation}
+                disabled
+              >
+                Continue
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-primary "
+                style={{ float: "right" }}
+                onClick={handleConfirmation}
+              >
+                Continue
+              </button>
+            )}
           </div>
         </div>
       </div>

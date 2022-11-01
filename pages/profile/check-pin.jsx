@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import Layout from "layout";
 import axios from "utils/axios";
 import Cookies from "js-cookie";
-
+import { useRouter } from "next/router";
 export default function ChangePin() {
+  const router = useRouter();
   const [pin, setPin] = useState({
     pin1: "",
     pin2: "",
@@ -31,38 +32,34 @@ export default function ChangePin() {
     }
   };
   const id = Cookies.get("userId");
+  console.log(id);
   const handleSubmit = async (e) => {
     e.preventDefault();
     let allPin = "";
     for (const item in pin) {
       allPin += pin[item];
     }
-    const newPin = {
-      pin: allPin,
-    };
+    // const newPin = {
+    //   pin: allPin,
+    // };
 
     try {
-      const result = await axios.patch(`/user/pin/${id}`, newPin);
+      const result = await axios.get(`/user/pin/${allPin}`);
 
       alert(result.data.msg);
-      //   router.push("/login");
-      if (response.data === null) {
-        console.log("object");
-      }
-    } catch (err) {
-      console.log(err);
-      // console.log(AxiosError.response);
-      alert(err.response.data.msg);
+      router.push("change-pin");
+    } catch (error) {
+      console.log(error);
     }
   };
   //   console.log(profile);
   return (
-    <Layout title="Change Pin">
+    <Layout title="CheckPin">
       <div>
         <div className=" main-container p-auto">
           <div className="container">
             <div className="header-history   pt-2  mb-3">
-              <p className="my-auto">Change Pin </p>
+              <p className="my-auto">CheckPin </p>
             </div>
             <p className="input--transfer__desc mt-4">
               Enter your current 6 digits Fazzpay PIN <br /> below to continue

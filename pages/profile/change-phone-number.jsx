@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import Layout from "layout";
 import axios from "utils/axios";
 import Cookies from "js-cookie";
-
+import { useDispatch } from "react-redux";
+import { getDataUserById } from "stores/action/user";
 export default function ChangePassword() {
+  const dispatch = useDispatch();
   const [form, setForm] = useState();
-  //   const router = useRouter();
-  //   console.log(router);
+
   const id = Cookies.get("userId");
   console.log(id);
   const handleChangeForm = (e) => {
@@ -14,6 +15,7 @@ export default function ChangePassword() {
   };
   const handleUpdatePhone = async () => {
     const result = await axios.patch(`user/profile/${id}`, form);
+    dispatch(getDataUserById(id));
     alert(result.data.msg);
   };
   //   console.log(profile);

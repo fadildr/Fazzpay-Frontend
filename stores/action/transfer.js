@@ -1,7 +1,8 @@
-export const formTransfer = (form, id) => {
+export const formTransfer = (form, id, data) => {
   return {
     type: "FORM_TRANSFER",
-    data: form,
+    form,
     id,
+    data,
   };
 };

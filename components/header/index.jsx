@@ -25,7 +25,7 @@ export default function Header() {
               src={
                 user.data.image
                   ? `https://res.cloudinary.com/dd1uwz8eu/image/upload/v1666604839/${user.data.image}`
-                  : "/user-img.png"
+                  : `https://ui-avatars.com/api/?name=${user.data.firstName}&background=random&size=50`
               }
               className="avatar"
               alt="avatar"
@@ -34,7 +34,7 @@ export default function Header() {
               height={50}
               // layout="responsive"
               alt="background"
-              // className="me-auto"
+              className="rounded-circle"
             />
             <div
               className="header-name mx-3"

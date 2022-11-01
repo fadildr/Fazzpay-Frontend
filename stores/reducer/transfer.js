@@ -1,6 +1,7 @@
 const initialState = {
   data: [],
   id: "",
+  form: [],
 };
 const formTransfer = (state = initialState, action) => {
   switch (action.type) {
@@ -9,6 +10,7 @@ const formTransfer = (state = initialState, action) => {
         ...state,
         data: action.data,
         id: action.id,
+        form: action.form,
       };
     }
     default: {

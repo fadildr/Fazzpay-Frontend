@@ -3,21 +3,22 @@ import Layout from "layout";
 import Image from "next/image";
 import { useSelector } from "react-redux";
 import axios from "utils/axios";
+
 import { useRouter } from "next/router";
-// import Cookies from "js-cookie";
-// import moment from "moment";
+
 export default function Transfer() {
   const router = useRouter();
-  console.log(router);
+
   const data = useSelector((state) => state.transfer.data);
-  const userId = useSelector((state) => state.transfer.id);
+  const form = useSelector((state) => state.transfer.form);
+  const receiverId = useSelector((state) => state.transfer.id);
+
   const user = useSelector((state) => state.user.data);
   const current = new Date();
   const date = `${current.getDate()}/${
     current.getMonth() + 1
   }/${current.getFullYear()}`;
 
-  const [profile, setProfile] = useState();
   const [pin, setPin] = useState({
     pin1: "",
     pin2: "",
@@ -26,20 +27,6 @@ export default function Transfer() {
     pin5: "",
     pin6: "",
   });
-
-  useEffect(() => {
-    getDataById();
-  }, []);
-  // console.log(userId);
-  const getDataById = async () => {
-    try {
-      const result = await axios.get(`/user/profile/${userId}`);
-      // console.log(id);
-      setProfile(result.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const handleChange = (e) => {
     setPin({ ...pin, [e.target.id]: e.target.value });
@@ -58,7 +45,11 @@ export default function Transfer() {
       }
     }
   };
-  // const id = Cookies.get("userId");
+  const newForm = {
+    ...form,
+    receiverId,
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     let allPin = "";
@@ -66,15 +57,21 @@ export default function Transfer() {
       allPin += pin[item];
     }
     try {
-      const result = await axios.patch(`/user/pin/${allPin}`);
+      const result = await axios.get(`/user/pin/${allPin}`);
       console.log(result);
-      alert(result.data.msg);
+      // alert(result.data.msg);
+      if (result.status === 200) {
+        const newResult = await axios.post("/transaction/transfer", newForm);
+        console.log(newResult);
+        alert(newResult.data.msg);
+        router.push("/transfer/status-transfer");
+      }
       // router.push("/status-transfer");
     } catch (error) {
-      console.log(error);
+      alert(error.response?.data.msg);
     }
   };
-  console.log(profile);
+
   return (
     <Layout title="Input Transfer">
       <div>
@@ -92,18 +89,23 @@ export default function Transfer() {
             >
               <div className="left--section__history d-flex   gap-3">
                 <Image
-                  src="/user-img.png"
+                  src={
+                    data.image
+                      ? `https://res.cloudinary.com/dd1uwz8eu/image/upload/v1666604839/${data.image}`
+                      : `https://ui-avatars.com/api/?name=${data.firstName}&background=random&size=50`
+                  }
                   width={50}
                   height={50}
                   layout=""
                   alt="background"
+                  style={{ borderRadius: "20px" }}
                   // className="me-auto"
                 />
                 <div className="name-activity">
                   <p className="username-history">
-                    {profile.firstName} {profile.lastName}
+                    {data.firstName} {data.lastName}
                   </p>
-                  <p className="activity-history">{profile.noTelp}</p>
+                  <p className="activity-history">{data.noTelp}</p>
                 </div>
               </div>
             </div>
@@ -122,12 +124,12 @@ export default function Transfer() {
 
             <div className="confirm-transfer">
               <p className="title-confirm mb-2">Amount</p>
-              <p className="value-confirm">Rp.{data.amount}</p>
+              <p className="value-confirm">Rp.{form.amount}</p>
             </div>
 
             <div className="confirm-transfer">
               <p className="title-confirm mb-2">Balance left</p>
-              <p className="value-confirm">Rp.{user.balance - data.amount}</p>
+              <p className="value-confirm">Rp.{user.balance - form.amount}</p>
             </div>
 
             <div className="confirm-transfer">
@@ -137,7 +139,7 @@ export default function Transfer() {
 
             <div className="confirm-transfer">
               <p className="title-confirm mb-2">Notes</p>
-              <p className="value-confirm">{data.notes}</p>
+              <p className="value-confirm">{form.notes}</p>
             </div>
 
             <button

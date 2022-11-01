@@ -1,34 +1,29 @@
 import React, { useEffect, useState } from "react";
 import Layout from "layout";
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import axios from "utils/axios";
+import { useRouter } from "next/router";
+import { useSelector, useDispatch } from "react-redux";
+import Cookies from "js-cookie";
+import { getDataUserById } from "stores/action/user";
 // import moment from "moment";
 export default function Transfer() {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const form = useSelector((state) => state.transfer.form);
+
   const data = useSelector((state) => state.transfer.data);
-  const userId = useSelector((state) => state.transfer.id);
   const user = useSelector((state) => state.user.data);
   const isSucces = true;
   const current = new Date();
   const date = `${current.getDate()}/${
     current.getMonth() + 1
   }/${current.getFullYear()}`;
-  const [profile, setProfile] = useState();
-  useEffect(() => {
-    getDataById();
-  }, []);
-  console.log(userId);
-  const getDataById = async () => {
-    try {
-      const result = await axios.get(`/user/profile/${userId}`);
-      // console.log(id);
-      setProfile(result.data.data);
-    } catch (error) {
-      console.log(error);
-      setProfile(0);
-    }
+  const id = Cookies.get("userId");
+  console.log(id);
+  const handleHome = async () => {
+    await dispatch(getDataUserById(id));
+    router.push("/home");
   };
-  console.log(profile);
   return (
     <Layout title="Input Transfer">
       <div>
@@ -55,7 +50,7 @@ export default function Transfer() {
                     color: "#4D4B57",
                   }}
                 >
-                  Transfer Failed
+                  Transfer Succes
                 </p>
               </div>
             ) : (
@@ -79,19 +74,19 @@ export default function Transfer() {
                     color: "#4D4B57",
                   }}
                 >
-                  Transfer Success
+                  Transfer Failed
                 </p>
               </div>
             )}
 
             <div className="confirm-transfer">
               <p className="title-confirm mb-2">Amount</p>
-              <p className="value-confirm">Rp{data.amount}</p>
+              <p className="value-confirm">Rp.{form.amount}</p>
             </div>
 
             <div className="confirm-transfer">
               <p className="title-confirm mb-2">Balance left</p>
-              <p className="value-confirm">Rp{user.balance - data.amount}</p>
+              <p className="value-confirm">Rp.{user.balance - form.amount}</p>
             </div>
 
             <div className="confirm-transfer">
@@ -101,7 +96,7 @@ export default function Transfer() {
 
             <div className="confirm-transfer">
               <p className="title-confirm mb-2">Notes</p>
-              <p className="value-confirm">{data.notes}</p>
+              <p className="value-confirm">{form.notes}</p>
             </div>
             <div className="header-history   pt-2  mb-3">
               <p className="my-auto">Transfer To </p>
@@ -125,9 +120,9 @@ export default function Transfer() {
 
                 <div className="name-activity">
                   <p className="username-history">
-                    {profile.firstName} {profile.lastName}
+                    {data.firstName} {data.lastName}
                   </p>
-                  <p className="activity-history">{profile.noTelp}</p>
+                  <p className="activity-history">{data.noTelp}</p>
                 </div>
               </div>
             </div>
@@ -135,6 +130,7 @@ export default function Transfer() {
               type="button"
               className="btn btn-primary "
               style={{ float: "right" }}
+              onClick={handleHome}
             >
               Back To Home
             </button>

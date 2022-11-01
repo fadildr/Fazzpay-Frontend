@@ -1,36 +1,53 @@
-import React from "react";
+import React, { useState } from "react";
+// import { useSearchParams } from "react-router-dom";
 import Layout from "layout";
-import Image from "next/image";
 import { useRouter } from "next/router";
-// import React, { useState } from "react";
-import axios from "utils/axios";
-import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
-export default function Transfer() {
+import axiosServer from "utils/axiosServer";
+import Image from "next/image";
+import Cookies from "next-cookies"; // digunakan untuk kebutuhan mengambil data untuk server side
+
+import qs from "query-string";
+
+export default function Transfer(props) {
+  // const [searchParams] = useSearchParams();
+  // console.log(searchParams);
   const router = useRouter();
-  const [data, setData] = useState([]);
+  const [form, setForm] = useState("");
+  const handleOnChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-  useEffect(() => {
-    getDataUser();
-  }, []);
-
-  const id = Cookies.get("userId");
-  console.log(id);
-  const getDataUser = async () => {
-    try {
-      const result = await axios.get(
-        "/user?page=1&limit=7&search=&sort=firstName ASC"
-      );
-      setData(result.data.data);
-    } catch (error) {
-      console.log(error);
+  const useNavigateSearch = (data) => {
+    let query = { ...props.params, ...data, ...form };
+    // console.log(...data);
+    console.log(props.params);
+    if (query.page === 1) {
+      delete query.page;
     }
+    if (query.searchName === "") {
+      delete query.searchName;
+    }
+    query = qs.stringify(query);
+    console.log(query);
+    router.push(`/transfer?${query}`);
   };
   const handleCreateTransfer = (id) => {
     console.log(id);
     router.push(`/transfer/${id}`);
   };
-  // console.log(data);
+  const handlePrevPage = () => {
+    useNavigateSearch({ page: props?.params?.page - 1 });
+  };
+
+  const handleNextPage = () => {
+    useNavigateSearch({ page: props?.params?.page + 1 });
+    // console.log(props.params.page);
+  };
+  const handleSearch = () => {
+    useNavigateSearch({ search: props?.params?.search });
+    // console.log(props.params.search);
+    // console.log(form);
+  };
   return (
     <Layout title="Transfer">
       <div>
@@ -43,6 +60,8 @@ export default function Transfer() {
                   <span
                     className="input-group-text input-group-text-search"
                     id="basic-addon1"
+                    onClick={handleSearch}
+                    style={{ cursor: "pointer" }}
                   >
                     <i className="bi-search"></i>
                   </span>
@@ -53,29 +72,37 @@ export default function Transfer() {
                   placeholder="Username"
                   aria-label="Username"
                   aria-describedby="basic-addon1"
+                  name="search"
+                  onChange={handleOnChange}
                 />
               </div>
             </div>
 
-            {data.length > 0 ? (
-              data.map((item) => (
+            {props.listUser.length > 0 ? (
+              props.listUser.map((item) => (
                 <div
-                  className="history-transfer d-flex mb-2"
+                  className="history-transfer d-flex mb-4"
                   key={item}
                   onClick={() => handleCreateTransfer(item.id)}
                   style={{ cursor: "pointer" }}
                 >
                   <div className="left--section__history d-flex   gap-3 ">
                     <Image
-                      src="/user-img.png"
+                      src={
+                        item.image
+                          ? `https://res.cloudinary.com/dd1uwz8eu/image/upload/v1666604839/${item.image}`
+                          : `https://ui-avatars.com/api/?name=${item.firstName}&background=random&size=50`
+                      }
                       width={50}
                       height={50}
                       layout=""
                       alt="background"
-                      // className="me-auto"
+                      className="rounded-circle"
                     />
                     <div className="name-activity">
-                      <p className="username-history">{item.firstName}</p>
+                      <p className="username-history">
+                        {item.firstName} {item.lastName}
+                      </p>
                       <p className="activity-history">{item.noTelp}</p>
                     </div>
                   </div>
@@ -83,12 +110,48 @@ export default function Transfer() {
               ))
             ) : (
               <h1 className="text-center">
-                you don't have any history <i class="bi bi-emoji-frown"></i>{" "}
+                User Not Found <i class="bi bi-emoji-frown"></i>
               </h1>
             )}
+          </div>
+          <div className="d-flex gap-2 justify-content-center w-100 my-5">
+            <button className="btn btn-primary" onClick={handlePrevPage}>
+              &lt;
+            </button>
+            <button className="btn btn-primary" onClick={handleNextPage}>
+              &gt;
+            </button>
           </div>
         </div>
       </div>
     </Layout>
   );
+}
+
+export async function getServerSideProps(context) {
+  console.log(context);
+  let params = context.query;
+  console.log(params.search);
+  params.page = params.page ? +params.page : 1;
+  console.log("server side");
+  console.log(params.search);
+  if (params.search) {
+    params.page = 1;
+  }
+  const dataCookies = Cookies(context);
+  const result = await axiosServer.get(
+    `/user?page=${params.page}&limit=5&search=${params.search}&sort=`,
+    {
+      headers: {
+        Authorization: `Bearer ${dataCookies.token}`,
+      },
+    }
+  );
+  return {
+    props: {
+      listUser: result.data.status === 200 ? result.data.data : [],
+      pagination: result.data.status === 200 ? result.data.pagination : {},
+      params: params,
+    }, // will be passed to the page component as props
+  };
 }

@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { topup } from "stores/action/topup";
-
+// import { getDataUserById } from "stores/action/user";
 export default function Topup() {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -17,9 +17,12 @@ export default function Topup() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
   const handleTopup = async () => {
-    await dispatch(topup(form));
-    alert(data.message);
-    router.push(data.data.redirectUrl);
+    try {
+      await dispatch(topup(form));
+      alert(data.message);
+      // dispatch(getDataUserById(id));
+      router.push(data.data.redirectUrl);
+    } catch (error) {}
   };
   //   console.log(data);
   return (

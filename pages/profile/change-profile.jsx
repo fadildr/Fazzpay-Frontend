@@ -3,7 +3,11 @@ import Layout from "layout";
 import axios from "utils/axios";
 import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
-export default function ChangePassword() {
+import { useDispatch } from "react-redux";
+import { getDataUserById } from "stores/action/user";
+
+export default function ChangeProfile() {
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const [form, setForm] = useState({
     firstName: user.data.firstName,
@@ -21,6 +25,7 @@ export default function ChangePassword() {
   const handleUpdateProfile = async () => {
     console.log(form);
     const result = await axios.patch(`user/profile/${id}`, form);
+    dispatch(getDataUserById(id));
     alert(result.data.msg);
   };
   //   console.log(profile);
