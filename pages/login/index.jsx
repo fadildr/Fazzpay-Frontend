@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import axios from "utils/axios";
 import Cookies from "js-cookie";
 import Image from "next/image";
@@ -36,11 +37,12 @@ export default function Login() {
       console.log(result);
     } catch (error) {
       console.log(error);
+      alert(error.response.data.msg);
     }
   };
   return (
     <div className="container-fluid ">
-      <div className="row">
+      <div className="row ">
         <div
           className="col-7 section--img__left"
           // style={{ background: "#6379F4" }}
@@ -66,7 +68,7 @@ export default function Login() {
             </p>
           </div>
         </div>
-        <div className="col-5 ">
+        <div className="col-5 section--img__right">
           <div className="form  my-5 mx-5 ">
             <p className="title-auth-right">
               Start Accessing Banking Needs With All Devices and All Platforms
@@ -100,7 +102,7 @@ export default function Login() {
               Sign in
             </button>
             <p className="footer-auth">
-              Dont have an account? Let’s <a href="#">Signup</a>{" "}
+              Dont have an account? Let’s <Link href="/register">Sign up</Link>{" "}
             </p>
           </div>
         </div>

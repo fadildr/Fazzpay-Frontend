@@ -112,7 +112,7 @@ export default function Transfer() {
                 onChange={handleChangeForm}
               />
             </div>
-            {form.amount > user.data.balance ? (
+            {form.amount > user.data.balance || form.amount < 1001 ? (
               <button
                 type="button"
                 className="btn btn-primary "

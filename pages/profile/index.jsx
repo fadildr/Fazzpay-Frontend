@@ -22,8 +22,6 @@ export default function Profile() {
     } else {
       setForm({ ...form, [name]: value });
     }
-
-    // console.log(e.target.files);
   };
   const id = Cookies.get("userId");
   const handleUpdateImage = async () => {
@@ -37,7 +35,12 @@ export default function Profile() {
       const result = await axios.patch(`user/image/${id}`, formData);
       dispatch(getDataUserById(id));
       alert(result.data.msg);
-    } catch (error) {}
+      setImage("");
+    } catch (error) {
+      alert(error.response.data.msg);
+      setImage("");
+      // alert(error.response);
+    }
   };
   const handleDeleteImage = async () => {
     try {
@@ -83,7 +86,7 @@ export default function Profile() {
             <div className="title-profile text-center">
               {image ? (
                 <button
-                  className="btn"
+                  className="btn btn-primary"
                   onClick={handleUpdateImage}
                   // style={{ visibility: "hidden" }}
                 >

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import axiosClient from "utils/axios";
 // import Cookies from "js-cookie";
 import Image from "next/image";
-
+import Link from "next/link";
 export default function Regiter() {
   const router = useRouter();
   const [form, setForm] = useState({
@@ -58,7 +58,7 @@ export default function Regiter() {
             </p>
           </div>
         </div>
-        <div className="col-5 ">
+        <div className="col-5 section--img__right">
           <div className="form  my-5 mx-5 ">
             <p className="title-auth-right">
               Start Accessing Banking Needs With All Devices and All Platforms
@@ -105,7 +105,7 @@ export default function Regiter() {
               Sign in
             </button>
             <p className="footer-auth">
-              Already have an account? Let’s <a href="#">Login</a>{" "}
+              Already have an account? Let’s <Link href="/login">Login</Link>{" "}
             </p>
           </div>
         </div>

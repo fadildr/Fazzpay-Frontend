@@ -46,7 +46,8 @@ footer {
   font-size: 16px;
   bottom: 0;
   display: flex;
-  clear: both;
+  position: fixed;
+  /* clear: both; */
   /* position: absolute; */
 }
 .foo-right {

@@ -1,16 +1,15 @@
 import Image from "next/image";
 import React, { useState } from "react";
-import Footer from "../components/footer";
-import heroImg from "../public/bg-auth.png";
-// import Link from "next/link";
-import microsoftLogo from "../public/microsoft.png";
-import hnmLogo from "../public/hnm.png";
-import airbnbLogo from "../public/airbnb.png";
-import dropboxLogo from "../public/dropbox.png";
-import feature1 from "../public/feature-img-1.png";
-import feature2 from "../public/feature-img-2.png";
+import Footer from "../../components/footer";
+import heroImg from "../../public/bg-auth.png";
+import microsoftLogo from "../../public/microsoft.png";
+import hnmLogo from "../../public/hnm.png";
+import airbnbLogo from "../../public/airbnb.png";
+import dropboxLogo from "../../public/dropbox.png";
+import feature1 from "../../public/feature-img-1.png";
+import feature2 from "../../public/feature-img-2.png";
 import { useRouter } from "next/router";
-import avatar from "../public/user-img.png";
+import avatar from "../../public/user-img.png";
 
 export default function Home() {
   document.title = "FazzPay";
@@ -117,7 +116,7 @@ export default function Home() {
           <div>
             <button
               className="btn btn-outline-light px-4 me-3"
-              onClick={() => router.push("/login")}
+              onClick={() => router.push("auth/login")}
             >
               Login
             </button>

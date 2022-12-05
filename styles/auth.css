@@ -6,6 +6,11 @@
   background-image: url("../public/cover-auth.png");
   background-repeat: no-repeat;
   background-size: cover;
+  min-height: 100vh;
+  padding: 100px 0;
+}
+.section--img__right {
+  padding: 100px 0;
 }
 .title-auth {
   font-family: "Nunito Sans";

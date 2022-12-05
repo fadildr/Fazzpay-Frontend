@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 
 const axiosApiIntances = axios.create({
   baseURL: process.env.URL_BACKEND,
-  // baseURL: "https://fazzpay-rose.vercel.app",
 });
 
 // Add a request interceptor

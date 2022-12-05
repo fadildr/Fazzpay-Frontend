@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-// import { useSearchParams } from "react-router-dom";
 import Layout from "layout";
 import { useRouter } from "next/router";
 import axiosServer from "utils/axiosServer";
 import Image from "next/image";
 import Cookies from "next-cookies"; // digunakan untuk kebutuhan mengambil data untuk server side
-
 import qs from "query-string";
-
 export default function Transfer(props) {
-  // const [searchParams] = useSearchParams();
-  // console.log(searchParams);
   const router = useRouter();
   const [form, setForm] = useState("");
   const handleOnChange = (e) => {
@@ -38,15 +33,11 @@ export default function Transfer(props) {
   const handlePrevPage = () => {
     useNavigateSearch({ page: props?.params?.page - 1 });
   };
-
   const handleNextPage = () => {
     useNavigateSearch({ page: props?.params?.page + 1 });
-    // console.log(props.params.page);
   };
   const handleSearch = () => {
     useNavigateSearch({ search: props?.params?.search });
-    // console.log(props.params.search);
-    // console.log(form);
   };
   return (
     <Layout title="Transfer">
@@ -91,7 +82,7 @@ export default function Transfer(props) {
                       src={
                         item.image
                           ? `https://res.cloudinary.com/dd1uwz8eu/image/upload/v1666604839/${item.image}`
-                          : `https://ui-avatars.com/api/?name=${item.firstName}&background=random&size=50`
+                          : `https://ui-avatars.com/api/?name=${item.firstName}${item.lastName}&background=random&size=50`
                       }
                       width={50}
                       height={50}
@@ -115,10 +106,22 @@ export default function Transfer(props) {
             )}
           </div>
           <div className="d-flex gap-2 justify-content-center w-100 my-5">
-            <button className="btn btn-primary" onClick={handlePrevPage}>
+            <button
+              className="btn btn-primary"
+              onClick={handlePrevPage}
+              disabled={props?.params?.page === 1 ? true : false}
+            >
               &lt;
             </button>
-            <button className="btn btn-primary" onClick={handleNextPage}>
+            <button
+              className="btn btn-primary"
+              onClick={handleNextPage}
+              disabled={
+                props.listUser.length <= 5 && props.listUser.length === 0
+                  ? true
+                  : false
+              }
+            >
               &gt;
             </button>
           </div>
@@ -129,24 +132,26 @@ export default function Transfer(props) {
 }
 
 export async function getServerSideProps(context) {
-  console.log(context);
   let params = context.query;
-  console.log(params.search);
+  // console.log(params.search);
   params.page = params.page ? +params.page : 1;
-  console.log("server side");
-  console.log(params.search);
+
   if (params.search) {
     params.page = 1;
+  } else if (!params.search) {
+    params.search = "";
   }
+
   const dataCookies = Cookies(context);
   const result = await axiosServer.get(
-    `/user?page=${params.page}&limit=5&search=${params.search}&sort=`,
+    `/user?page=${params.page}&limit=5&search=${params.search}&sort=firstName ASC`,
     {
       headers: {
         Authorization: `Bearer ${dataCookies.token}`,
       },
     }
   );
+
   return {
     props: {
       listUser: result.data.status === 200 ? result.data.data : [],
